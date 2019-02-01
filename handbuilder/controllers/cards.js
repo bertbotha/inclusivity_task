@@ -1,5 +1,7 @@
 exports.works = function (){return true;}
 
+// PRIVATE FUNCTIONS ///////////////////////////////////////////////////////////////////////
+
 function is_same_array ($array_1, $array_2){
 
     $array_1.sort();
@@ -18,7 +20,29 @@ function is_same_array ($array_1, $array_2){
 
 }
 
-function translate_facecard($symbol){
+function translate_to_facecard($number){
+    var $translated = '';
+    switch($number){
+        case 11 :
+        $translated = 'Jack'
+        break;
+        case 12 :
+        $translated = 'Queen'
+        break;
+        case 13 :
+        $translated = 'King'
+        break;
+        case 14 :
+        $translated = 'Ace'
+        break;
+        default :
+        $translated = $number.toString();
+        break;
+    }
+    return $translated;
+}
+
+function translate_from_facecard($symbol){
     var $translated = '';
     switch($symbol){
         case 'J' :
@@ -43,7 +67,7 @@ function sort_number ($a, $b) {
     return $a-$b;
 }
 
-function convert_for_straight ($cards) {
+function convert_to_numbers ($cards) {
     var $card_numbers = [];
     $cards.forEach(el => {
         $card_numbers.push(parseInt(el));
@@ -56,7 +80,7 @@ function royal ($sequence){
     return is_same_array($sequence, ['10', 'J', 'Q', 'K', 'A']);
 }
 function find_straight ($sequence){
-    var $num_sequence = convert_for_straight($sequence);
+    var $num_sequence = convert_to_numbers($sequence);
     var $is_straight = true;
     $num_sequence.forEach(function($number, $key){
         if($key+1 < $num_sequence.length){
@@ -67,6 +91,17 @@ function find_straight ($sequence){
     });
     return $is_straight;
 }
+
+function get_highest_card ($cards) {
+    var $highest = 0;
+    var $card_numbers = get_numbers($cards, true);
+        $card_numbers = convert_to_numbers($card_numbers);
+        $card_numbers.forEach(el=>{
+            if(el > $highest){$highest = el;}
+        });
+        return translate_to_facecard($highest);
+}
+
 function get_numbers ($cards, $translate){
     var $card_numbers = [];
     $cards.forEach(el => {
@@ -74,7 +109,7 @@ function get_numbers ($cards, $translate){
             if(!$translate){
                 $card_numbers.push(el[0]);
             } else {
-                $card_numbers.push(translate_facecard(el[0]));
+                $card_numbers.push(translate_from_facecard(el[0]));
             }
         } else {
             $card_numbers.push('10');
@@ -82,6 +117,8 @@ function get_numbers ($cards, $translate){
     });
     return $card_numbers;
 }
+
+// PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////////////////////
 
 exports.is_straight = function($cards) {
 
@@ -91,8 +128,8 @@ exports.is_straight = function($cards) {
     if( royal($card_numbers) ){
         return 'royal ';
     } else if( find_straight($straight_card_numbers) ) {
-        return 'straight ';
+        return get_highest_card($cards) + ' high straight ';
     } else {
-        return '';
+        return get_highest_card($cards) + ' high ';
     }
 }

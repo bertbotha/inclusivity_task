@@ -84,7 +84,7 @@ describe('Testing Basics', function() {
 
     it('CardController can recognise when there is no straight', function(done){
       var $case = CardController.is_straight(['10H', 'JH', 'QH', 'KH', '3H']);
-      if($case == ''){
+      if($case == 'King high '){
         done();
       } else {
         done(new Error("CardController does not recognise a flush: " + $case));
@@ -99,7 +99,7 @@ describe('Testing Basics', function() {
         $flush,
         CardController.is_straight($cards_array)
       );
-      if($case == 'flush'){
+      if($case == '8 high flush'){
         done();
       } else {
         done(new Error("HandController and CardController did not recognise a flush: " + $case));
@@ -114,7 +114,7 @@ describe('Testing Basics', function() {
         $flush,
         CardController.is_straight($cards_array)
       );
-      if($case == 'straight flush'){
+      if($case == '6 high straight flush'){
         done();
       } else {
         done(new Error("HandController and CardController did not recognise a straight flush: " + $case));
