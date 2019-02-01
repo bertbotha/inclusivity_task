@@ -10,13 +10,6 @@ exports.make_hand = function($hand) {
 }
 
 exports.final_hand = function($is_flush, $hand) {
-    // return new Promise(function(resolve, reject){
-    //     try {
-            var $final_hand = ($is_flush)? $hand + ' flush' : $hand;
-            // resolve($final_hand);
-            return $final_hand;
-    //     } catch (err) {
-    //         reject(err);
-    //     }
-    // })
+    var $final_hand = ($is_flush)? $hand + 'flush' : $hand;
+    return $final_hand;
 }

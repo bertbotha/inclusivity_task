@@ -75,10 +75,49 @@ describe('Testing Basics', function() {
 
     it('CardController can recognise a royal straight', function(done){
       var $case = CardController.is_straight(['10H', 'JH', 'QH', 'KH', 'AH']);
-      if($case == 'royal'){
+      if($case == 'royal '){
         done();
       } else {
         done(new Error("CardController does not recognise a royal straight: " + $case));
+      }
+    });
+
+    it('CardController can recognise when there is no straight', function(done){
+      var $case = CardController.is_straight(['10H', 'JH', 'QH', 'KH', '3H']);
+      if($case == ''){
+        done();
+      } else {
+        done(new Error("CardController does not recognise a flush: " + $case));
+      }
+    });
+
+    it('HandController and CardController can recognise a flush', function(done){
+      var $cards_array = ['2H', '3H', '4H', '5H', '8H'];
+      var $flush = SuiteController.is_flush($cards_array);
+      var $case =  
+      HandController.final_hand(
+        $flush,
+        CardController.is_straight($cards_array)
+      );
+      if($case == 'flush'){
+        done();
+      } else {
+        done(new Error("HandController and CardController did not recognise a flush: " + $case));
+      }
+    });
+
+    it('HandController and CardController can recognise a straight flush', function(done){
+      var $cards_array = ['2H', '5H', '6H', '3H', '4H'];
+      var $flush = SuiteController.is_flush($cards_array);
+      var $case =  
+      HandController.final_hand(
+        $flush,
+        CardController.is_straight($cards_array)
+      );
+      if($case == 'straight flush'){
+        done();
+      } else {
+        done(new Error("HandController and CardController did not recognise a straight flush: " + $case));
       }
     });
 

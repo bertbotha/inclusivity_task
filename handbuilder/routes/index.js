@@ -34,7 +34,7 @@ router.post('/', function(req, res) {
 
     var $final_hand = 
     HandController.final_hand(
-      true,
+      true, // is this a flush?
       CardController.is_straight($cards_array)
     );
     console.log($final_hand);
@@ -42,7 +42,7 @@ router.post('/', function(req, res) {
       status: 'ok',
       request: req.body.hand,
       response: $final_hand
-    })
+    });
 
   } else {
     console.log('not flush');

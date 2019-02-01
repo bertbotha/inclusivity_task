@@ -13,40 +13,86 @@ function is_same_array ($array_1, $array_2){
                 $is_same = false;
             }
         }
-        if(!$is_same){
-            console.log('not the same');
-            console.log($array_1);
-            console.log($array_2);
-        }
         return $is_same;
     }
 
 }
+
+function translate_facecard($symbol){
+    var $translated = '';
+    switch($symbol){
+        case 'J' :
+        $translated = '11'
+        break;
+        case 'Q' :
+        $translated = '12'
+        break;
+        case 'K' :
+        $translated = '13'
+        break;
+        case 'A' :
+        $translated = '14'
+        break;
+        default :
+        $translated = $symbol
+        break;
+    }
+    return $translated;
+}
+function sort_number ($a, $b) {
+    return $a-$b;
+}
+
+function convert_for_straight ($cards) {
+    var $card_numbers = [];
+    $cards.forEach(el => {
+        $card_numbers.push(parseInt(el));
+    });
+    $card_numbers.sort(sort_number);
+    return $card_numbers;
+}
+
 function royal ($sequence){
     return is_same_array($sequence, ['10', 'J', 'Q', 'K', 'A']);
 }
 function find_straight ($sequence){
-    return false;
+    var $num_sequence = convert_for_straight($sequence);
+    var $is_straight = true;
+    $num_sequence.forEach(function($number, $key){
+        if($key+1 < $num_sequence.length){
+            if($number != $num_sequence[$key+1]-1){
+                $is_straight = false;
+            }
+        }
+    });
+    return $is_straight;
 }
-function aces_low ($sequence){
-    return $sequence;
-}
-
-exports.is_straight = function($cards) {
+function get_numbers ($cards, $translate){
     var $card_numbers = [];
     $cards.forEach(el => {
         if(el.length == 2){
-            $card_numbers.push(el[0]);
+            if(!$translate){
+                $card_numbers.push(el[0]);
+            } else {
+                $card_numbers.push(translate_facecard(el[0]));
+            }
         } else {
             $card_numbers.push('10');
         }
-        
     });
+    return $card_numbers;
+}
+
+exports.is_straight = function($cards) {
+
+    var $card_numbers = get_numbers($cards, false);
+    var $straight_card_numbers = get_numbers($cards, true);
+
     if( royal($card_numbers) ){
-        return 'royal';
-    } else if( find_straight($cards) || find_straight(aces_low($cards)) ) {
-        return 'straight';
+        return 'royal ';
+    } else if( find_straight($straight_card_numbers) ) {
+        return 'straight ';
     } else {
-        return false
+        return '';
     }
 }
