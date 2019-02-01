@@ -1,0 +1,1 @@
+exports.works = function (){return true;}

@@ -6,3 +6,20 @@ body {
 a {
   color: #00B7FF;
 }
+
+#txt_hand {
+  padding:.5em .75em;
+  border-radius:5px;
+  border:1px solid lightgray;
+}
+
+.description_container {
+  background:lightgray;
+  padding:.75em 1em;
+  margin-top:1em;
+  border-radius:5px;
+}
+  .description_container p {
+    margin:0;
+    padding:0;
+  }

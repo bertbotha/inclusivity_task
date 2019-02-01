@@ -13,3 +13,7 @@ Inside of root:
 
 The application will run on http://localhost:3000
 
+## Testing
+Unit tests located inside ./test/index.test.js
+Run `npm test` to perform tests.
+

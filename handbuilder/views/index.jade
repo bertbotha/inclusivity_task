@@ -1,5 +1,17 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 HandBuilder
+
+  div.form_container 
+    label Your hand
+      br
+      br
+      input(type='text' id='txt_hand' placeholder='What are your cards?')
+      br
+      br
+      button#get_hand Get hand
+
+  div.description_container 
+    p You can also submit a POST request directly to root (http://localhost:3000) to receive a response as JSON
+
