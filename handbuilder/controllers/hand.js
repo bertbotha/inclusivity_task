@@ -6,7 +6,7 @@ var CardController  = require('./cards');
 function final_hand ($is_flush, $hand) {
     if(!$hand){return false;}
     var $final_hand = ($is_flush)? $hand + 'flush' : $hand;
-    return $final_hand;
+    return $final_hand.trim();
 }
 
 // PUBLIC FUNCTIONS //////////////////////////////////////////////////////////////////////////////////

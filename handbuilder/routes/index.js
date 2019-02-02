@@ -12,7 +12,9 @@ router.get('/', function(req, res) {
 
 router.post('/', function(req, res) {
 
-  var $cards_array = HandController.make_hand(req.body.hand);
+  var $input = req.body.hand;
+      $input = $input.toUpperCase();
+  var $cards_array = HandController.make_hand($input);
   if(!$cards_array){
     res.json({
       status: 'error',

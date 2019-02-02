@@ -1,5 +1,9 @@
 exports.works = function (){return true;}
 
+// PRIVATE VARS ////////////////////////////////////////////////////////////////////////////
+
+var $aces_high = false;
+
 // PRIVATE FUNCTIONS ///////////////////////////////////////////////////////////////////////
 
 function is_same_array ($array_1, $array_2){
@@ -21,6 +25,7 @@ function is_same_array ($array_1, $array_2){
 }
 
 function translate_to_facecard($number){
+    // convert to objects
     var $translated = '';
     switch($number){
         case 11 :
@@ -33,6 +38,7 @@ function translate_to_facecard($number){
         $translated = 'King'
         break;
         case 14 :
+        case 1 :
         $translated = 'Ace'
         break;
         default :
@@ -43,6 +49,7 @@ function translate_to_facecard($number){
 }
 
 function translate_from_facecard($symbol){
+    // convert to objects
     var $translated = '';
     switch($symbol){
         case 'J' :
@@ -54,12 +61,15 @@ function translate_from_facecard($symbol){
         case 'K' :
         $translated = '13'
         break;
-        case 'A' :
-        $translated = '14'
+        case 'A'  :
+        $translated = '1'
         break;
         default :
         $translated = $symbol
         break;
+    }
+    if( $translated == '1' && $aces_high){
+        $translated = '14';
     }
     return $translated;
 }
@@ -89,7 +99,14 @@ function find_straight ($sequence){
             }
         }
     });
-    return $is_straight;
+
+    if(!$is_straight && !$aces_high){
+        $aces_high = true;
+        return find_straight($sequence);
+    } else {
+        return $is_straight;
+    }
+    
 }
 
 function get_highest_card ($cards) {
@@ -116,6 +133,31 @@ function get_numbers ($cards, $translate){
         }
     });
     return $card_numbers;
+}
+
+function translate_pairs($pairs){
+    var $patterns = [];
+    var $card;
+    var $result;
+
+    Object.keys($pairs).forEach(el=>{
+        if($pairs[el] > 1){
+            $card = el;
+            $patterns.push($pairs[el]);
+        }
+    })
+    $patterns.sort(sort_number);
+    
+    var $hands = {
+        '2': "A pair of " + translate_to_facecard(parseInt(translate_from_facecard($card))) + "s",
+        '3': "Three of a kind",
+        '2,3': "Full House",
+        '4': "Four of a kind",
+        '2,2': "Two Pair"
+    }
+
+    $result = $hands[$patterns.toString()];
+    return $result;
 }
 
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////////////////////
@@ -145,5 +187,20 @@ exports.is_straight = function($cards) {
 }
 
 exports.find_pairs = function($cards) {
-    return 'Two Pair';
+    
+    var $pairs_list = [];
+    var $pairs = {};
+    var $card_numbers = get_numbers($cards, false);
+    var $result;
+    $card_numbers.forEach(el=>{
+        if($pairs_list.indexOf(el) > -1){
+            $pairs[el]++;
+        } else {
+            $pairs[el]=1;
+            $pairs_list.push(el);
+        }
+    });
+
+    $result = translate_pairs($pairs);
+    return $result;
 }
