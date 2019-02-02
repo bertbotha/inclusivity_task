@@ -170,4 +170,14 @@ describe('Testing Basics', function() {
       }
     });
 
+    it('HandController and CardController can recognise a high card', function(done){
+      var $case =  
+      HandController.make_hand('2H, 4D, 6C, 8S, 10H');
+      if($case == 'High card, 10'){
+        done();
+      } else {
+        done(new Error("HandController and CardController did not recognise a high card: " + $case));
+      }
+    });
+
   });

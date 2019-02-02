@@ -156,7 +156,11 @@ function translate_pairs($pairs){
         '2,2': "Two Pair"
     }
 
-    $result = $hands[$patterns.toString()];
+    if($patterns.toString() in $hands){
+        $result = $hands[$patterns.toString()];
+    } else {
+        $result = false;
+    }
     return $result;
 }
 

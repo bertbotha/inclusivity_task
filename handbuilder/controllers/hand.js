@@ -27,9 +27,12 @@ exports.make_hand = function($hand) {
             CardController.is_straight($hand_array)
         );
 
-        if(!$final_hand && !$is_flush){
+        if(!$final_hand && !$is_flush){ // not a straight or a flush
             $final_hand = CardController.find_pairs($hand_array);
-        } else if (!$final_hand && $is_flush){
+            if(!$final_hand){ // no straight, flush or pairs
+                $final_hand = 'High card, ' + CardController.get_highest_card($hand_array);
+            }
+        } else if (!$final_hand && $is_flush){ // not a straight, but it is a flush
             $final_hand = CardController.get_highest_card($hand_array) + ' high flush';
         }
 
