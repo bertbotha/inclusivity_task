@@ -12,6 +12,15 @@ block content
       br
       button#get_hand Get hand
 
+  div.result_container 
+    p Your hand: 
+      span
+
+  div.error_container 
+    p ERROR: 
+      span 
+      
+
   div.description_container 
     p You can also submit a POST request directly to root (http://localhost:3000) to receive a response as JSON
     br
@@ -19,5 +28,7 @@ block content
       br 
       br
       span.example {'hand':'2H, 3H, 4H, 5H, 6H'}
+
+  
     
 
