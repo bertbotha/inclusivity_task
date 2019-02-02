@@ -84,7 +84,7 @@ describe('Testing Basics', function() {
 
     it('CardController can recognise when there is no straight', function(done){
       var $case = CardController.is_straight(['10H', 'JH', 'QH', 'KH', '3H']);
-      if($case == 'King high '){
+      if(!$case){
         done();
       } else {
         done(new Error("CardController does not recognise a flush: " + $case));

@@ -120,6 +120,16 @@ function get_numbers ($cards, $translate){
 
 // PUBLIC FUNCTIONS ///////////////////////////////////////////////////////////////////////////
 
+exports.get_highest_card = function ($cards) {
+    var $highest = 0;
+    var $card_numbers = get_numbers($cards, true);
+        $card_numbers = convert_to_numbers($card_numbers);
+        $card_numbers.forEach(el=>{
+            if(el > $highest){$highest = el;}
+        });
+        return translate_to_facecard($highest);
+}
+
 exports.is_straight = function($cards) {
 
     var $card_numbers = get_numbers($cards, false);
@@ -128,8 +138,12 @@ exports.is_straight = function($cards) {
     if( royal($card_numbers) ){
         return 'royal ';
     } else if( find_straight($straight_card_numbers) ) {
-        return get_highest_card($cards) + ' high straight ';
+        return this.get_highest_card($cards) + ' high straight ';
     } else {
-        return get_highest_card($cards) + ' high ';
+        return false;
     }
+}
+
+exports.find_pairs = function($cards) {
+    return 'Two Pair';
 }
