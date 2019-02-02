@@ -92,13 +92,9 @@ describe('Testing Basics', function() {
     });
 
     it('HandController and CardController can recognise a flush', function(done){
-      var $cards_array = ['2H', '3H', '4H', '5H', '8H'];
-      var $flush = SuiteController.is_flush($cards_array);
+      var $cards_array = '2H, 3H, 4H, 5H, 8H';
       var $case =  
-      HandController.final_hand(
-        $flush,
-        CardController.is_straight($cards_array)
-      );
+      HandController.make_hand($cards_array);
       if($case == '8 high flush'){
         done();
       } else {
@@ -107,13 +103,9 @@ describe('Testing Basics', function() {
     });
 
     it('HandController and CardController can recognise a straight flush', function(done){
-      var $cards_array = ['2H', '5H', '6H', '3H', '4H'];
-      var $flush = SuiteController.is_flush($cards_array);
+      var $cards_array = '2H, 5H, 6H, 3H, 4H';
       var $case =  
-      HandController.final_hand(
-        $flush,
-        CardController.is_straight($cards_array)
-      );
+      HandController.make_hand($cards_array);
       if($case == '6 high straight flush'){
         done();
       } else {
